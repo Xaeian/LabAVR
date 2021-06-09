@@ -4,9 +4,9 @@
 
 //---------------------------------------------------------------------------------------------------------------------
 
-void I2C_Init(uint32_t frequency) // kHz
+void I2C_Init(uint32_t frequency_khz) // kHz
 {
-	TWBR = (uint8_t)((float)F_CPU / 2000 / frequency)-7.5;
+	TWBR = (uint8_t)((float)F_CPU / 2000 / frequency_khz)-7.5;
 }
 
 static void I2C_Start(void)

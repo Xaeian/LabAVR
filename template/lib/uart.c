@@ -4,11 +4,11 @@
 
 //---------------------------------------------------------------------------------------------------------------------
 
-void UART_Init(uint32_t frequency, uint8_t bits, uint8_t parity, uint8_t stop)
+void UART_Init(uint32_t frequency_bps, uint8_t bits, uint8_t parity, uint8_t stop)
 {
 	char cfg = (1 << UMSEL00);
 	
-	unsigned long int ubrr = (F_CPU / 16 / 300 / frequency) - 0.5;
+	unsigned long int ubrr = (F_CPU / 16 / 300 / frequency_bps) - 0.5;
 	UBRR0L = ubrr;
   ubrr >>= 8; UBRR0H = ubrr & 0x0F;
 	

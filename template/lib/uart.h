@@ -3,7 +3,7 @@
 
 //---------------------------------------------------------------------------------------------------------------------
 
-void UART_Init(uint32_t frequency, uint8_t bits, uint8_t parity, uint8_t stop);
+void UART_Init(uint32_t frequency_bps, uint8_t bits, uint8_t parity, uint8_t stop);
 void UART_Send(char dana);
 char UART_Read();
 void UART_String(char *tekst);

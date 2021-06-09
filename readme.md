@@ -15,16 +15,9 @@ https://www.microchip.com/en-us/development-tools-tools-and-software/microchip-s
 -c usbasp -p m328p -U flash:w:$(TargetDir)$(TargetName).hex:i
 
 
-
 Niestety
 
 
 http://winavr.sourceforge.net/
-
-
-
 https://blog.zakkemble.net/avrdudess-a-gui-for-avrdude/
-
-
-
 https://zadig.akeo.ie/

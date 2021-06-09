@@ -3,7 +3,7 @@
 
 //---------------------------------------------------------------------------------------------------------------------
 
-void I2C_Init(uint32_t frequency);
+void I2C_Init(uint32_t frequency_khz);
 static void I2C_Start(void);
 static void I2C_Stop(void);
 static void I2C_SendData(uint8_t data);
