@@ -6,12 +6,12 @@
 
 void ADC_Init()
 {
-	if ( F_CPU / 2 < 200000 ) ADCSRA |= (1<<ADPS0);
-	else if ( F_CPU / 4 < 200000 ) ADCSRA |= (1<<ADPS1);
-	else if ( F_CPU / 8 < 200000 ) ADCSRA |= (1<<ADPS1) | (1<<ADPS0);
-	else if ( F_CPU / 16 < 200000 ) ADCSRA |= (1<<ADPS2);
-	else if ( F_CPU / 32 < 200000 ) ADCSRA |= (1<<ADPS2) | (1<<ADPS0);
-	else if ( F_CPU / 64 < 200000 ) ADCSRA |= (1<<ADPS2) | (1<<ADPS1);
+	if (F_CPU / 2 < 200000) ADCSRA |= (1<<ADPS0);
+	else if (F_CPU / 4 < 200000) ADCSRA |= (1<<ADPS1);
+	else if (F_CPU / 8 < 200000) ADCSRA |= (1<<ADPS1) | (1<<ADPS0);
+	else if (F_CPU / 16 < 200000) ADCSRA |= (1<<ADPS2);
+	else if (F_CPU / 32 < 200000) ADCSRA |= (1<<ADPS2) | (1<<ADPS0);
+	else if (F_CPU / 64 < 200000) ADCSRA |= (1<<ADPS2) | (1<<ADPS1);
 	else ADCSRA |= (1<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);
 	ADMUX |= (ADC_VREF << 6);
 	ADCSRA |= (1 << ADEN) | (ADC_FREERUN << ADSC) | (ADC_FREERUN << ADATE) | (ADC_FREERUN << ADIE);

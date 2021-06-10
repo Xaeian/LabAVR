@@ -81,7 +81,7 @@
         <avrgcc.compiler.symbols.DefSymbols>
           <ListValues>
             <Value>DEBUG</Value>
-            <Value>F_CPU=16000000</Value>
+            <Value>F_CPU=18432000</Value>
           </ListValues>
         </avrgcc.compiler.symbols.DefSymbols>
         <avrgcc.compiler.directories.IncludePaths>
@@ -125,6 +125,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="lib\lcd.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="lib\portx.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="lib\portx.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="lib\pwm.c">
