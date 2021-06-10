@@ -78,11 +78,11 @@ ISR(USART_RX_vect)
 
 W przykładzie należy połączyć oba wyprowadzenia enkodera oraz linie 7 diod
 
-`PA[2] (INT0)` ⟶ `ECR1`
+`PD2 INT0`  ⟶ `ECR1`
 
-`PA[3]` ⟶ `ECR2`
+`PD3` ⟶ `ECR2`
 
-`PB[0..7] (INT0)` ⟶ `LED[0..7]`
+`PB[0..7]` ⟶ `LED[0..7]`
 
 ```cpp
 #include <avr/io.h>
