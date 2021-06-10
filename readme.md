@@ -1,37 +1,57 @@
+[//]: # (TODO: switch, atmega328p-diagram, lcd)
 
+Przeglądowy kurs programowania procesorów **AVR** na przykładzie mikrokontrolera **Atmega328P**.
 
+## Dlaczego AVR?
 
-IDE for AVR
-
-https://www.microchip.com/en-us/development-tools-tools-and-software/microchip-studio-for-avr-and-sam-devices
-
-
-
-
-
-# Programator ISP/ASP
-
-Niestety nasze kochane **AVR**-y nie otrzumują już takiego wsparcia jak dawniej. Procesory, programatory, dev-boardy są znacznie droższe w porównaniu z coraz bardziej polularnymi prockami **STM32**. Jednak w mojej opinii taka Atmega328P jest znacznie najlepszym procesorem na początek nauki.
+Mikrokontrolery wydane przez firmę Atmel nie są już aż tak popularne jak kiedyś i są powolutku wypierane. Jednak w mojej opinii taka Atmega jest lepszym procesorem na początek samodzielnej nauki niż zaawansowany STM32.
 - Mamy ją w obudowie DIP28 THT, więc możemy sobie na płytce stykowej wszystko sami poogarniać
-- W sieci i literaturze przez 20 lat pojawiło się zatrzesienie przykładów i materiałów dotyczących mikrokontrolerów AVR, z których zdecydowana większość dotyczy scalaków Atmega8A, Atmega32A oraz Atmega328P
-- Mała różnorodność wykorzystywanych układów oraz niewielka ilość peryferiów, która w rozwiązaniach rynkowych jest dużym ograniczenim, tutaj przekłada się na spójność przykładów. Jeden UART, niewielkie możliwości konfiguracji - wystarczy podłączyć i działa. 
-Nic tylko programować... Ale, żeby do tego przejść trzeba mieć programator. Popularnym, a co ważniejsze tanim wyborem jest **ISPasp**. Nie jest on wspierany, więc trzeba uciekać się do konfiguracji niestandardowej, ale za 10zł nie ma co wybrzydzać.
+- W sieci i literaturze można znaleźć masę przykładów i materiałów dotyczących tych mikrokontrolerów, z których zdecydowana większość dotyczy scalaków Atmega8A, Atmega32A oraz Atmega328P
+- Mała różnorodność wykorzystywanych układów oraz niewielka ilość peryferiów i ich prostota, która w rozwiązaniach rynkowych jest dużym ograniczeniem, tutaj przekłada się na spójność przykładów. Jeden UART, niewielkie możliwości konfiguracji - wystarczy podłączyć i działa.
+
+## Zawartość REPO
+
+W paczce znajdziemy m. in.
+- `apps` - Niezbędne oprogramowanie:
+  - [Microchip AVR Studio](https://www.microchip.com/en-us/development-tools-tools-and-software/) - IDE
+  - [WinAVR](http://winavr.sourceforge.net/download.html) - Paczka zawierająca aplikację do wgrywania firmware przez programator  USB/ASP
+  - [Zadig](https://zadig.akeo.ie/) - Program to aktualizacji programatorów USB/ASP
+  - [Realterm](https://realterm.i2cchip.com/) - Terminal do komunikacji z PC
+  - [CP210x](https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers), [CH430](https://sparks.gogo.co.nz/ch340.html) - Sterowniki to kontrolerów USB
+  - [AVRDudess](https://blog.zakkemble.net/avrdudess-a-gui-for-avrdude/) - Aplikacja do wgrywania wsadu oraz ustawiania fuse-bitów
+- `template` - Skonfigurowany projekt z załączonymi bibliotekami do obsługi peryferiów mikrokontrolera i układów zewnętrznych
+  - `uart` - Interfejs komunikacyjny wykorzystywany m. in. do komunikacji USB
+  - `pwm` - Układ generujący sygnał prostokątny
+  - `adc` - Przetwornik analogowo-cyfrowy
+  - `i2c` - Interfejs komunikacyjny wykorzystywany m. in. do komunikacji z czujnikami
+  - `portx` - dodatkowe porty IO w tym wyświetlacze 7-segmentowe
+  - `lcd` - Wyświetlacz ze sterownikiem HD44780
+
+## USB/ASP w Microchip AVR Studio
+
+Aby pracować z programatorem USB/ASP trzeba dodać urządzenie zewnętrzne, ponieważ ten programator nie jest oficjalnie wspierany.
+
+![add-external-tool](./images/usbasp1.png)
+
+W polu `Command` należy wybrać ścieżkę do `avrdude.exe`
+
+W polu `Arguments` należy wpisać
 
 ```
 -c usbasp -p m328p -U flash:w:$(TargetDir)$(TargetName).hex:i
 ```
+![toolbar](./images/usbasp2.png)
 
-http://winavr.sourceforge.net/
+Na pasku narzędzi powinno pojawić się `USBasp Atmega328P`
 
-https://blog.zakkemble.net/avrdudess-a-gui-for-avrdude/
+# Speed-run AVR
 
-https://zadig.akeo.ie/
-
-## Operacje binarne
-
-...
+### [Operacje binarne](http://sqrt.pl/avr.pdf)
 
 ## Migająca dioda LED
+
+Wymagane połączenia
+- `PD0` ⟶ `LED`
 
 ```cpp
 #include <avr/io.h>
@@ -42,7 +62,8 @@ int main(void)
   // init();
   DDRD |= 0xFF;
 
-  while (1) {
+  while (1)
+  {
     // loop();
     _delay_ms(200);
     PORTD |= (1 << 0);
@@ -52,7 +73,10 @@ int main(void)
 }
 ```
 
-### Line level 1
+### Linijka LED
+
+Wymagane połączenia
+- `PD[0..7]` ⟶ `LED[0..7]`
 
 ```cpp
 #include <avr/io.h>
@@ -64,7 +88,9 @@ int main(void)
   DDRD = 0xFF;
   PORTD = ~value;
   
-  while (1) {
+  while (1)
+  {
+    _delay_ms(30);
     value <<= 1;
     if(!value) {
        value = 1;
@@ -73,8 +99,13 @@ int main(void)
   }
 }
 ```
+Zadanie: zmusić linijkę, żeby poruszała się raz w jedną, a raz w drugą stronę.
 
 ## Komunikacja UART
+
+Wymagane połączenia
+- `PD0 (RX)` ⟶ `USB-TX`
+- `PD1 (TX)` ⟶ `USB-RX`
 
 ```cpp
 #include <avr/io.h>
@@ -96,15 +127,64 @@ ISR(USART_RX_vect)
   UART_Send(data);
 }
 ```
+
+## Biblioteka `portx`
+
+Biblioteka zapewnia mam możliwość sterowania 8 dodatkowymi diodami `PINX`, przyciskami `PORTX`, a także 4 wyświetlaczami, do którego są przygotowane specjalne funkcje. Biblioteka w tle komunikuje się z rejestrami przesuwnymi za pomocą magistrali **SPI**.
+
+Wymagane połączenia
+- `PB5 (SCK)` ⟶ `SCK`
+- `PB4 (MISO)` ⟶ `SO`
+- `PB3 (MOSI)` ⟶ `SI`
+- `PB2` ⟶ `CS`
+
+```cpp
+#include <avr/io.h>
+#include <util/delay.h>
+
+int main(void)
+{
+  uint8_t value = 0;
+  PORT_Init();
+
+  while(1)
+  {
+    _delay_ms(69);
+    PORTY_Int(value);
+    value++;
+  }
+}
+```
+
+## Przertownik ADC
+
+Wymagane połączenia
+- `PC0 (SCK)` ⟶ `Px` | `JOY` | `MIC` | `FT`
+
+```cpp
+#include <avr/io.h>
+
+int main(void)
+{
+  uint16_t value = 0;
+  ADC_Init();
+
+  while(1)
+  {
+    _delay_ms(69);
+    value = ADC_Run(0);
+    // TODO: 'value' output
+  }
+}
+```
+
 ## Enkoder
 
-W przykładzie należy połączyć oba wyprowadzenia enkodera oraz linie 7 diod
+Enkoder wykorzystuje przerwanie zewnętrzne INT
 
-`PD2 INT0`  ⟶ `ECR1`
-
-`PD3` ⟶ `ECR2`
-
-`PB[0..7]` ⟶ `LED[0..7]`
+Wymagane połączenia
+- `PD2 (INT0)` ⟶ `ECR1`
+- `PD3` ⟶ `ECR2`
 
 ```cpp
 #include <avr/io.h>
@@ -118,16 +198,14 @@ uint8_t ecr_left_right;
 int main(void)
 {
   uint8_t value = 0;
-  
   PORTD = 0x0C;
-  PORTB = ~value; DDRB = 0xFF;
   
   EIMSK |= (1 << INT0); // External interrupt 0
   EICRA |= (1 << ISC01) || ( 1 << ISC00 ); // Falling & rising edge
   sei();
   
-  while (1)
-  {    
+  while(1)
+  {
     if((ecr_left_right == ECR_LEFT) && (value != 0)) {
       value--;
       ecr_left_right = 0;
@@ -135,7 +213,7 @@ int main(void)
       value++;
       ecr_left_right = 0;
     }
-    PORTB = ~value;
+    // TODO: 'value' output
   }
 }
 
@@ -146,4 +224,3 @@ ISR(INT0_vect)
   else if ((state == 0)||(state == 3)) { ecr_left_right = ECR_LEFT; }
 }
 ```
-

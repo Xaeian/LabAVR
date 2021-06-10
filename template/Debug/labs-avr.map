@@ -61,7 +61,7 @@ Discarded input sections
  .data          0x00000000        0x0 lib/adc.o
  .bss           0x00000000        0x0 lib/adc.o
  .text.ADC_Init
-                0x00000000       0x1a lib/adc.o
+                0x00000000       0x1c lib/adc.o
  .text.ADC_Mux  0x00000000       0x12 lib/adc.o
  .text.ADC_Run  0x00000000       0x20 lib/adc.o
  .text.ADC_RunFilter
@@ -139,11 +139,11 @@ Discarded input sections
  .text.LCD_SendData
                 0x00000000       0x1a lib/lcd.o
  .text.LCD_Init
-                0x00000000       0xdc lib/lcd.o
+                0x00000000       0xd6 lib/lcd.o
  .text.LCD_Clear
-                0x00000000       0x10 lib/lcd.o
+                0x00000000       0x14 lib/lcd.o
  .text.LCD_Home
-                0x00000000       0x10 lib/lcd.o
+                0x00000000       0x14 lib/lcd.o
  .text.LCD_ModeCL
                 0x00000000        0x8 lib/lcd.o
  .text.LCD_ModeCR
@@ -180,7 +180,7 @@ Discarded input sections
                 0x00000000       0x4e lib/lcd.o
  .debug_info    0x00000000      0xb86 lib/lcd.o
  .debug_abbrev  0x00000000      0x2cf lib/lcd.o
- .debug_loc     0x00000000      0x89a lib/lcd.o
+ .debug_loc     0x00000000      0x89b lib/lcd.o
  .debug_aranges
                 0x00000000      0x128 lib/lcd.o
  .debug_ranges  0x00000000      0x130 lib/lcd.o
@@ -809,10 +809,10 @@ END GROUP
  .debug_str     0x000003f4       0x20 main.o
                                 0x191 (size before relaxing)
 
-.debug_loc      0x00000000      0x2a4
+.debug_loc      0x00000000      0x2a6
  *(.debug_loc)
  .debug_loc     0x00000000      0x216 lib/portx.o
- .debug_loc     0x00000216       0x8e main.o
+ .debug_loc     0x00000216       0x90 main.o
 
 .debug_macinfo
  *(.debug_macinfo)

@@ -3,15 +3,14 @@
 
 int main(void)
 {
-  uint8_t value = 1;
-  DDRD = 0xFF;
-  PORTD = ~value;
-  
+  // init();
+  DDRD |= 0xFF;
+
   while (1) {
-    value <<= 1;
-    if(!value) {
-       value = 1;
-    }
-    PORTD = ~value;
+    // loop();
+    _delay_ms(200);
+    PORTD |= (1 << 0);
+    _delay_ms(200);
+    PORTD &= ~(1 << 0);
   }
 }

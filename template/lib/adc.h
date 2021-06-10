@@ -9,7 +9,7 @@ typedef enum {
   ADC_VReference_Integrated = 3
 } ADC_VReference_e;
 
-#define ADC_VREF ADC_VReference_External
+#define ADC_VREF ADC_VReference_Internal
 #define ADC_FREERUN 0
 
 //---------------------------------------------------------------------------------------------------------------------
