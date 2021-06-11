@@ -44,6 +44,10 @@ W polu `Arguments` należy wpisać
 
 Na pasku narzędzi powinno pojawić się `USBasp Atmega328P`
 
+Jak po z**build**owaniu program się nie wgrywa trzeba przeinstalować sterowniki programatora
+
+![zadig](./images/usbasp3.png)
+
 # Speed-run AVR
 
 ### [Operacje binarne](http://sqrt.pl/avr.pdf)
