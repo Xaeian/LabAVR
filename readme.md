@@ -1,4 +1,7 @@
-[//]: # (TODO: switch, atmega328p-diagram, lcd)
+---
+Emilian Świtalski | es@sqrt.pl
+TODO: switch, lcd
+---
 
 Przeglądowy kurs programowania procesorów **AVR** na przykładzie mikrokontrolera **Atmega328P**.
 
@@ -49,6 +52,8 @@ Jak po z**build**owaniu program się nie wgrywa, trzeba przeinstalować sterowni
 ![zadig](./images/usbasp3.png)
 
 # Speed-run AVR
+
+![atmega328p](./images/atmega328p.png)
 
 ### [Operacje binarne](http://sqrt.pl/avr.pdf)
 
