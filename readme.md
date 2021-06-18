@@ -1,6 +1,6 @@
 ---
 Emilian Świtalski | es@sqrt.pl
-TODO: switch, lcd
+TODO: switch, lcd, ir
 ---
 
 Przeglądowy kurs programowania procesorów **AVR** na przykładzie mikrokontrolera **Atmega328P**.
