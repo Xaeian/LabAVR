@@ -168,7 +168,7 @@ int main(void)
 ## Przertownik ADC
 
 Wymagane połączenia
-- `PC0 (SCK)` ⟶ `Px` | `JOY` | `MIC` | `FT`
+- `PC0 (SCK)` ⟶ `POT` | `JOY` | `MIC` | `FT` | `...`
 
 ```cpp
 #include <avr/io.h>
