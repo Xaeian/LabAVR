@@ -53,6 +53,7 @@ Jak po z**build**owaniu program się nie wgrywa, trzeba przeinstalować sterowni
 
 # Speed-run AVR
 
+[](#pinout)
 ![atmega328p](./images/atmega328p.png)
 
 ### [Operacje binarne](http://sqrt.pl/avr.pdf)
