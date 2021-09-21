@@ -51,9 +51,8 @@ Jak po z**build**owaniu program się nie wgrywa, trzeba przeinstalować sterowni
 
 ![zadig](./images/usbasp3.png)
 
-# Speed-run AVR
+# [Speed-run AVR](#pinout)
 
-[](#pinout)
 ![atmega328p](./images/atmega328p.png)
 
 ### [Operacje binarne](http://sqrt.pl/avr.pdf)
