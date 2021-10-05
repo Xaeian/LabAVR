@@ -1,2 +1,5 @@
 ignore/
-.vscode/
+template-vsc/.vscode/
+template-vsc/*.elf
+template-vsc/*.hex
+template-vsc/*.o
