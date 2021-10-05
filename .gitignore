@@ -3,3 +3,5 @@ template-vsc/.vscode/
 template-vsc/*.elf
 template-vsc/*.hex
 template-vsc/*.o
+template-ms/.vs
+template-ms/Debug
