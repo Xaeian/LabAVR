@@ -3,12 +3,12 @@ Emilian Świtalski | es@sqrt.pl
 TODO: switch, lcd, ir
 ---
 
-Przeglądowy kurs programowania procesorów **AVR** na przykładzie mikrokontrolera **Atmega328P**.
+Kurs programowania procesorów **AVR** na przykładzie mikrokontrolera **Atmega328P**.
 
 ## Dlaczego AVR?
 
 Mikrokontrolery wydane przez firmę Atmel nie są już aż tak popularne jak kiedyś i są powolutku wypierane. Jednak w mojej opinii taka Atmega jest lepszym procesorem na początek samodzielnej nauki niż zaawansowany STM32.
-- Mamy ją w obudowie DIP28 THT, więc możemy sobie na płytce stykowej wszystko sami poogarniać
+- Mamy ją w obudowie **DIP28** THT, więc możemy sobie na płytce stykowej wszystko sami poogarniać
 - W sieci i literaturze można znaleźć masę przykładów i materiałów dotyczących tych mikrokontrolerów, z których zdecydowana większość dotyczy scalaków Atmega8A, Atmega32A oraz Atmega328P
 - Mała różnorodność wykorzystywanych układów oraz niewielka ilość peryferiów i ich prostota, która w rozwiązaniach rynkowych jest dużym ograniczeniem, tutaj przekłada się na spójność przykładów. Jeden UART, niewielkie możliwości konfiguracji - wystarczy podłączyć i działa.
 
@@ -17,12 +17,14 @@ Mikrokontrolery wydane przez firmę Atmel nie są już aż tak popularne jak kie
 W paczce znajdziemy m. in.
 - `apps` - Niezbędne oprogramowanie:
   - [Microchip AVR Studio](https://www.microchip.com/en-us/development-tools-tools-and-software/) - IDE
-  - [WinAVR](http://winavr.sourceforge.net/download.html) - Paczka zawierająca aplikację do wgrywania firmware przez programator  USB/ASP
+  - [WinAVR](http://winavr.sourceforge.net/download.html) - Paczka zawierająca aplikację do wgrywania firmware przez programator  USB/ASP. Koniecznie trzeba zainstalować
   - [Zadig](https://zadig.akeo.ie/) - Program to aktualizacji programatorów USB/ASP
   - [Realterm](https://realterm.i2cchip.com/) - Terminal do komunikacji z PC
   - [CP210x](https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers), [CH430](https://sparks.gogo.co.nz/ch340.html) - Sterowniki to kontrolerów USB
   - [AVRDudess](https://blog.zakkemble.net/avrdudess-a-gui-for-avrdude/) - Aplikacja do wgrywania wsadu oraz ustawiania fuse-bitów
-- `template` - Skonfigurowany projekt z załączonymi bibliotekami do obsługi peryferiów mikrokontrolera i układów zewnętrznych
+- `template-ms` - Skonfigurowany projekt w **Microchip Studio**
+- `template-vsc` - Skonfigurowany projekt w **Visual Studio Code**
+- Przykładowe projekty zawierają bibliotekami do obsługi peryferiów mikrokontrolera i układów zewnętrznych:
   - `uart` - Interfejs komunikacyjny wykorzystywany m. in. do komunikacji USB
   - `pwm` - Układ generujący sygnał prostokątny
   - `adc` - Przetwornik analogowo-cyfrowy
@@ -30,9 +32,13 @@ W paczce znajdziemy m. in.
   - `portx` - dodatkowe porty IO w tym wyświetlacze 7-segmentowe
   - `lcd` - Wyświetlacz ze sterownikiem HD44780
 
-## USB/ASP w Microchip AVR Studio
+## Microchip Studio for AVR
 
-Aby pracować z programatorem USB/ASP trzeba dodać urządzenie zewnętrzne, ponieważ ten programator nie jest oficjalnie wspierany.
+Skonfigurowany projekt dla Microchip Studio znajduje się w folderze **template-ms**, jednak konieczna jest ustawienie prędkości pracy mikrokontrolera, gdyż jest ona ściśle związana z konfiguracją sprzętową _(fuse-bity / rezonator kwarcowy)_.
+
+![fcpu](./images/fcpu.png)
+
+Aby pracować z programatorem **USB/ASP** trzeba dodać urządzenie zewnętrzne, ponieważ ten programator nie jest oficjalnie wspierany.
 
 ![add-external-tool](./images/usbasp1.png)
 
@@ -51,11 +57,21 @@ Jak po z**build**owaniu program się nie wgrywa, trzeba przeinstalować sterowni
 
 ![zadig](./images/usbasp3.png)
 
+## Visual Studio Code
+
+Z [Visual Studio Code](https://code.visualstudio.com/Download) sprawa wygląda prościej, gdyż konfiguracja programatora jest zawarta w projekcie **template-vcs**, a nie w IDE. Trzeba jedynie ustawić prędkość pracy jako definicję.
+
+```cpp
+#define F_CPU 16000000
+```
+
 # Speedrun AVR
 
-![atmega328p](./images/atmega328p.png)
+Prezentacja obrazująca  [operacje binarne](http://sqrt.pl/avr.pdf) często wykorzystywane w programowaniu systemów wbudowanych.
 
-### [Operacje binarne](http://sqrt.pl/avr.pdf)
+Wykorzystując płytkę stykową i scalak w obudowie DIP28 przydatna jest ściągawka z wyprowadzeniami mikrokontrolera.
+
+![atmega328p](./images/atmega328p.png)
 
 ## Migająca dioda LED
 
