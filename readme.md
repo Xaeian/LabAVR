@@ -65,6 +65,10 @@ Z [Visual Studio Code](https://code.visualstudio.com/Download) sprawa wygląda p
 #define F_CPU 16000000
 ```
 
+I można skompilować i wgrać program za pomocą komendy
+
+    make
+
 # Speedrun AVR
 
 Prezentacja obrazująca  [operacje binarne](http://sqrt.pl/avr.pdf) często wykorzystywane w programowaniu systemów wbudowanych.
