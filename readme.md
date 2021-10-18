@@ -8,6 +8,7 @@ Kurs programowania procesorów **AVR** na przykładzie mikrokontrolera **Atmega3
 ## Dlaczego AVR?
 
 Mikrokontrolery wydane przez firmę Atmel nie są już aż tak popularne jak kiedyś i są powolutku wypierane. Jednak w mojej opinii taka Atmega jest lepszym procesorem na początek samodzielnej nauki niż zaawansowany STM32.
+
 - Mamy ją w obudowie **DIP28** THT, więc możemy sobie na płytce stykowej wszystko sami poogarniać
 - W sieci i literaturze można znaleźć masę przykładów i materiałów dotyczących tych mikrokontrolerów, z których zdecydowana większość dotyczy scalaków Atmega8A, Atmega32A oraz Atmega328P
 - Mała różnorodność wykorzystywanych układów oraz niewielka ilość peryferiów i ich prostota, która w rozwiązaniach rynkowych jest dużym ograniczeniem, tutaj przekłada się na spójność przykładów. Jeden UART, niewielkie możliwości konfiguracji - wystarczy podłączyć i działa.
@@ -15,9 +16,10 @@ Mikrokontrolery wydane przez firmę Atmel nie są już aż tak popularne jak kie
 ## Zawartość REPO
 
 W paczce znajdziemy m. in.
+
 - `apps` - Niezbędne oprogramowanie:
   - [Microchip AVR Studio](https://www.microchip.com/en-us/development-tools-tools-and-software/) - IDE
-  - [WinAVR](http://winavr.sourceforge.net/download.html) - Paczka zawierająca aplikację do wgrywania firmware przez programator  USB/ASP. Koniecznie trzeba zainstalować
+  - [WinAVR](http://winavr.sourceforge.net/download.html) - Paczka zawierająca aplikację do wgrywania firmware przez programator USB/ASP. Koniecznie trzeba zainstalować
   - [Zadig](https://zadig.akeo.ie/) - Program to aktualizacji programatorów USB/ASP
   - [Realterm](https://realterm.i2cchip.com/) - Terminal do komunikacji z PC
   - [CP210x](https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers), [CH430](https://sparks.gogo.co.nz/ch340.html) - Sterowniki to kontrolerów USB
@@ -49,6 +51,7 @@ W polu `Arguments` należy wpisać
 ```
 -c usbasp -p m328p -U flash:w:$(TargetDir)$(TargetName).hex:i
 ```
+
 ![toolbar](./images/usbasp2.png)
 
 Na pasku narzędzi powinno pojawić się `USBasp Atmega328P`
@@ -71,16 +74,19 @@ I można skompilować i wgrać program za pomocą komendy
 
 # Speedrun AVR
 
-Prezentacja obrazująca  [operacje binarne](http://sqrt.pl/avr.pdf) często wykorzystywane w programowaniu systemów wbudowanych.
+Prezentacja obrazująca [operacje binarne](http://sqrt.pl/avr.pdf) często wykorzystywane w programowaniu systemów wbudowanych.
 
 Wykorzystując płytkę stykową i scalak w obudowie DIP28 przydatna jest ściągawka z wyprowadzeniami mikrokontrolera.
 
 ![atmega328p](./images/atmega328p.png)
 
-## Migająca dioda LED
+## Migające diody LED
+
+Zacznijmy klasycznie od migającej diody:
 
 Wymagane połączenia
-- `PD0` ⟶ `LED`
+
+- `PD3` ⟶ `LED`
 
 ```cpp
 #include <avr/io.h>
@@ -89,34 +95,122 @@ Wymagane połączenia
 int main(void)
 {
   // init();
-  DDRD |= 0xFF;
+  DDRD |= (1 << 3);
 
   while (1)
   {
     // loop();
     _delay_ms(200);
-    PORTD |= (1 << 0);
+    PORTD |= (1 << 3);
     _delay_ms(200);
-    PORTD &= ~(1 << 0);
+    PORTD &= ~(1 << 3);
   }
 }
 ```
 
+Teraz dodajmy 3 dodatkowe diody na różnych rejestrach. Niech migają na przemian w parach:
+
+Wymagane połączenia
+
+- `PD3` ⟶ `LED1`
+- `PD7` ⟶ `LED2`
+- `PC2` ⟶ `LED3`
+- `PB5` ⟶ `LED4`
+
+```cpp
+int main(void)
+{
+  DDRD |= (1 << 3) | (1 << 7);
+  DDRC |= (1 << 2);
+  DDRB |= (1 << 5);
+
+  while (1)
+  {
+    _delay_ms(200);
+    PORTD |= (1 << 3) | (1 << 7);
+    PORTC &= ~(1 << 2);
+    PORTB &= ~(1 << 5);
+    _delay_ms(200);
+    PORTD &= ~((1 << 3) | (1 << 7));
+    PORTC |= (1 << 2);
+    PORTB |= (1 << 5);
+  }
+}
+```
+
+Zmodyfikujmy programu z użyciem definicji określających pozycje diody w rejestrze. Kod staje się czytelniejszy i aby zmienić pozycję diody, wystarczy zmienić definicję.
+
+```cpp
+#define LED1 (1 << 3)
+#define LED2 (1 << 7)
+#define LED3 (1 << 2)
+#define LED4 (1 << 5)
+
+int main(void)
+{
+  DDRD |= LED1 | LED2;
+  DDRC |= LED3;
+  DDRB |= LED4;
+
+  while (1)
+  {
+    _delay_ms(200);
+    PORTD |= LED1 | LED2;
+    PORTC &= ~LED3;
+    PORTB &= ~LED4;
+    _delay_ms(200);
+    PORTD &= ~(LED1 | LED2);
+    PORTC |= LED3;
+    PORTB |= LED4;
+  }
+}
+```
+
+Teraz zamrugajmy naprzemienne grupami czterech diod na jednym rejestrze. W tym przykładzie użycie definicji jak w poprzednim przykładzie jedynie przeszkadza. Gdy sterujemy 8 diodami z jednego rejestru, nie ma potrzeby wykonywać operacji nadpisywania `|=`, `&=`.
+
+```cpp
+int main(void)
+{
+  DDRD = 0xFF;
+
+  while (1)
+  {
+    PORTD = 0x0F;
+    _delay_ms(200);
+    PORTD = 0xF0;
+    _delay_ms(200);
+  }
+}
+```
+
+Nieco lepiej jednak będzie ustawić stan początkowy oraz w pętli zmieniać stan wszystkich diod. Wówczas zmiana stanu początkowego zmieni efekt wizualny.
+
+```cpp
+int main(void)
+{
+  DDRD = 0xFF;
+  PORTD = 0x0F; // PORTD = 0b10101010;
+  while (1)
+  {
+    _delay_ms(200);
+    PORTD ^= 0xFF; // PORTD = ~PORTD;
+  }
+}
+```
+
+<!---
 ### Linijka LED
 
 Wymagane połączenia
 - `PD[0..7]` ⟶ `LED[0..7]`
 
 ```cpp
-#include <avr/io.h>
-#include <util/delay.h>
-
 int main(void)
 {
   uint8_t value = 1;
   DDRD = 0xFF;
   PORTD = ~value;
-  
+
   while (1)
   {
     _delay_ms(30);
@@ -130,9 +224,12 @@ int main(void)
 ```
 Zadanie: zmusić linijkę, żeby poruszała się raz w jedną, a raz w drugą stronę.
 
+-->
+
 ## Komunikacja UART
 
 Wymagane połączenia
+
 - `PD0 (RX)` ⟶ `USB-TX`
 - `PD1 (TX)` ⟶ `USB-RX`
 
@@ -162,6 +259,7 @@ ISR(USART_RX_vect)
 Biblioteka zapewnia mam możliwość sterowania 8 dodatkowymi diodami `PINX`, przyciskami `PORTX`, a także 4 wyświetlaczami, do którego są przygotowane specjalne funkcje. Biblioteka w tle komunikuje się z rejestrami przesuwnymi za pomocą magistrali **SPI**.
 
 Wymagane połączenia
+
 - `PB5 (SCK)` ⟶ `SCK`
 - `PB4 (MISO)` ⟶ `SO`
 - `PB3 (MOSI)` ⟶ `SI`
@@ -188,6 +286,7 @@ int main(void)
 ## Przertownik ADC
 
 Wymagane połączenia
+
 - `PC0 (SCK)` ⟶ `POT` | `JOY` | `MIC` | `FT` | `...`
 
 ```cpp
@@ -212,6 +311,7 @@ int main(void)
 Enkoder wykorzystuje przerwanie zewnętrzne INT
 
 Wymagane połączenia
+
 - `PD2 (INT0)` ⟶ `ECR1`
 - `PD3` ⟶ `ECR2`
 
@@ -228,11 +328,11 @@ int main(void)
 {
   uint8_t value = 0;
   PORTD = 0x0C;
-  
+
   EIMSK |= (1 << INT0); // External interrupt 0
   EICRA |= (1 << ISC01) || ( 1 << ISC00 ); // Falling & rising edge
   sei();
-  
+
   while(1)
   {
     if((ecr_left_right == ECR_LEFT) && (value != 0)) {

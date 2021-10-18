@@ -6,6 +6,7 @@
 
 int main(void)
 {
+  char x = 2;
   // init()
   DDRD |= 0xFF;
 
