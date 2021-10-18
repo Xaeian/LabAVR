@@ -82,7 +82,7 @@ Wykorzystując płytkę stykową i scalak w obudowie DIP28 przydatna jest ścią
 
 ## Migające diody LED
 
-Zacznijmy klasycznie od migającej diody:
+Zacznijmy klasycznie od migającej diody
 
 Wymagane połączenia
 
@@ -108,7 +108,7 @@ int main(void)
 }
 ```
 
-Teraz dodajmy 3 dodatkowe diody na różnych rejestrach. Niech migają na przemian w parach:
+Teraz dodajmy 3 dodatkowe diody na różnych rejestrach. Niech migają na przemian w parach
 
 Wymagane połączenia
 
@@ -138,7 +138,7 @@ int main(void)
 }
 ```
 
-Zmodyfikujmy programu z użyciem definicji określających pozycje diody w rejestrze. Kod staje się czytelniejszy i aby zmienić pozycję diody, wystarczy zmienić definicję.
+Zmodyfikujmy programu z użyciem definicji określających pozycje diody w rejestrze. Kod staje się czytelniejszy i aby zmienić pozycję diody, wystarczy zmienić definicję
 
 ```cpp
 #define LED1 (1 << 3)
@@ -166,7 +166,7 @@ int main(void)
 }
 ```
 
-Teraz zamrugajmy naprzemienne grupami czterech diod na jednym rejestrze. W tym przykładzie użycie definicji jak w poprzednim przykładzie jedynie przeszkadza. Gdy sterujemy 8 diodami z jednego rejestru, nie ma potrzeby wykonywać operacji nadpisywania `|=`, `&=`.
+Teraz zamrugajmy naprzemienne grupami czterech diod na jednym rejestrze. W tym przykładzie użycie definicji jak w poprzednim przykładzie jedynie przeszkadza. Gdy sterujemy 8 diodami z jednego rejestru, nie ma potrzeby wykonywać operacji nadpisywania `|=`, `&=`
 
 ```cpp
 int main(void)
@@ -183,7 +183,7 @@ int main(void)
 }
 ```
 
-Nieco lepiej jednak będzie ustawić stan początkowy oraz w pętli zmieniać stan wszystkich diod. Wówczas zmiana stanu początkowego zmieni efekt wizualny.
+Nieco lepiej jednak będzie ustawić stan początkowy oraz w pętli zmieniać stan wszystkich diod. Wówczas zmiana stanu początkowego zmieni efekt wizualny
 
 ```cpp
 int main(void)
