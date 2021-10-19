@@ -83,7 +83,7 @@ Wykorzystując płytkę stykową i scalak w obudowie DIP28 przydatna jest ścią
 ## Migające diody LED
 
 Zacznijmy klasycznie od migającej diody
-
+W
 Wymagane połączenia
 
 - `PD3` ⟶ `LED`
@@ -198,10 +198,8 @@ int main(void)
 }
 ```
 
-<!---
-### Linijka LED
-
 Wymagane połączenia
+
 - `PD[0..7]` ⟶ `LED[0..7]`
 
 ```cpp
@@ -222,9 +220,39 @@ int main(void)
   }
 }
 ```
-Zadanie: zmusić linijkę, żeby poruszała się raz w jedną, a raz w drugą stronę.
 
--->
+Fajnie jakby linijka poruszała się raz w jedną, a raz w drugą stronę.
+
+Wymagane połączenia
+
+- `PD[0..7]` ⟶ `LED[0..7]`
+
+```cpp
+int main(void)
+{
+  DDRD = 0xFF;
+
+  uint8_t state = 1;
+  uint8_t value = 1;
+
+  while (1)
+  {
+    PORTD = ~value;
+    _delay_ms(30);
+    if(state) {
+      value <<= 1;
+      if(value == 128) {
+        state = 0;
+      }
+    } else {
+      value >>= 1;
+      if(value == 1) {
+      state = 1;
+      }
+    }
+  }
+}
+```
 
 ## Komunikacja UART
 
