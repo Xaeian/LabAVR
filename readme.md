@@ -185,6 +185,10 @@ int main(void)
 
 Nieco lepiej jednak będzie ustawić stan początkowy oraz w pętli zmieniać stan wszystkich diod. Wówczas zmiana stanu początkowego zmieni efekt wizualny
 
+Wymagane połączenia
+
+- `PD[0..7]` ⟶ `LED[0..7]`
+
 ```cpp
 int main(void)
 {
@@ -197,42 +201,47 @@ int main(void)
   }
 }
 ```
+<!---
+Kolejnym zadaniem będzie stworzenie z diod LED świecącej linijki
 
 Wymagane połączenia
 
 - `PD[0..7]` ⟶ `LED[0..7]`
 
 ```cpp
+#include <avr/io.h>
+#include <util/delay.h>
+#include <stdint.h>
+
 int main(void)
 {
   uint8_t value = 1;
   DDRD = 0xFF;
-  PORTD = ~value;
 
   while (1)
   {
+    PORTD = ~value;
     _delay_ms(30);
     value <<= 1;
     if(!value) {
        value = 1;
     }
-    PORTD = ~value;
   }
 }
 ```
 
 Fajnie jakby linijka poruszała się raz w jedną, a raz w drugą stronę.
 
-Wymagane połączenia
-
-- `PD[0..7]` ⟶ `LED[0..7]`
-
 ```cpp
+#include <avr/io.h>
+#include <util/delay.h>
+#include <stdint.h>
+#include <stdbool.h>
+
 int main(void)
 {
   DDRD = 0xFF;
-
-  uint8_t state = 1;
+  bool state = true;
   uint8_t value = 1;
 
   while (1)
@@ -242,18 +251,18 @@ int main(void)
     if(state) {
       value <<= 1;
       if(value == 128) {
-        state = 0;
+        state = false;
       }
     } else {
       value >>= 1;
       if(value == 1) {
-      state = 1;
+      state = true;
       }
     }
   }
 }
 ```
-
+-->
 ## Komunikacja UART
 
 Wymagane połączenia
