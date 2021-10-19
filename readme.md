@@ -201,7 +201,7 @@ int main(void)
   }
 }
 ```
-<!---
+
 Kolejnym zadaniem będzie stworzenie z diod LED świecącej linijki
 
 Wymagane połączenia
@@ -262,7 +262,7 @@ int main(void)
   }
 }
 ```
--->
+
 ## Komunikacja UART
 
 Wymagane połączenia
