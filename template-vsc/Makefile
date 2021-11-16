@@ -11,9 +11,10 @@ DUDEFLAGS = -c usbasp -p m328p -U flash:w:$(MAIN_DIR)$(MAIN_APP).hex:i
 
 SRC = $(MAIN_APP).c
 SRC += lib/portx.c
+SRC +=
 
-INCLUDE = -I. 
-INCLUDE += lib/portx.h
+INCLUDE = -I.
+INCLUDE +=
 
 Burn : Build
 	$(AVRDUDE) $(DUDEFLAGS)
