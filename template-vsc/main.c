@@ -15,7 +15,7 @@ int main(void)
   {
     // loop();
     _delay_ms(100);
-    PORTD |= (1 << 0);
+    PORTY[0] = 1;
     _delay_ms(100);
     PORTD &= ~(1 << 0);
   }
