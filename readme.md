@@ -83,7 +83,7 @@ Wykorzystując płytkę stykową i scalak w obudowie DIP28 przydatna jest ścią
 ## Migające diody LED
 
 Zacznijmy klasycznie od migającej diody
-W
+
 Wymagane połączenia
 
 - `PD3` ⟶ `LED`
@@ -260,6 +260,37 @@ int main(void)
       }
     }
   }
+}
+```
+
+## Przycisk SW
+
+Niech 4 diody odpowiadają staną na 4 przyciskach
+
+Wymagane połączenia
+
+- `PD[0..3]` ⟶ `LED[0..3]`
+- `PB[0..3]` ⟶ `SW[0..3]`
+
+```cpp
+int main(void)
+{
+  DDRD |= 0x0F; // wyprowadzenia PD[0..3] jako wyjścia
+  DDRB &= ~0x0F; // wyprowadzenia PB[0..3] jako wejścia
+  PORTB |= 0xFF; // pull-up (rezystor podciągający) dla wejść
+  while (1)
+  {
+    PORTD = PINB; // przepisanie stanów przycisku na diody
+  }
+}
+```
+
+Jednak w praktycznych implementacja potrzebujemy detektować wciśnięcie konkretnego przyciski.
+
+```cpp
+if(~PINB & (1 << pin)) // detekcja wciśnięcia przycisku na wyprowadzeniu PB{pin}
+{
+  // obsługa zdarzenia 
 }
 ```
 

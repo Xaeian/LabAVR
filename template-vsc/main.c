@@ -3,6 +3,7 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include "lib/portx.h"
 
 int main(void)
 {
