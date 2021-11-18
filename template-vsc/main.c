@@ -5,22 +5,24 @@
 #include <util/delay.h>
 #include "lib/portx.h"
 
+#define LED_ON PORTD &= ~(1 << 0)
+#define LED_OFF PORTD |= (1 << 0)
+
+char x = 0;
+
 int main(void)
 {
-  char x = 2;
-  // init()
-  DDRD |= 0xFF;
-
+  // init();
   PORT_Init();
+
+    PORTY_Sign(0, '1', true);
+    PORTY_Sign(1, '0', false);
+    PORTY_Sign(2, '1', true);
+    PORTY_Sign(3, '1', false);
 
   while (1)
   {
-    // loop();
-    _delay_ms(100);
-    //PORTD |= (1 << 0);
-    PORTY[0] = 8;
-    _delay_ms(100);
-    //PORTD &= ~(1 << 0);
-    PORTY[0] = 1;
+    PORTX = x++;
+    _delay_ms(10);
   }
 }

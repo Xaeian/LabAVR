@@ -30,7 +30,13 @@ __inline void PORT_Start() { SPCR |= (1<<SPIE); }
   
 void PORTY_Sign(uint8_t position, uint8_t sign, bool dot)
 {
-	// TODO
+	switch(sign) {
+    case 0: case '0': PORTY[position] = 0x3F; break;
+    case 1: case '1': PORTY[position] = 0x06; break;
+		// 2-9 a-f A b c d E F
+	}
+
+	if(dot) PORTY[position] |= (1<< 7);
 }
 
 void PORTY_Int(int16_t value)
