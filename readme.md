@@ -288,8 +288,16 @@ int main(void)
 Jednak w praktycznych implementacja potrzebujemy detektować wciśnięcie konkretnego przyciski.
 
 ```cpp
-if(~PINB & (1 << pin)) // detekcja wciśnięcia przycisku na wyprowadzeniu PB{pin}
-{
+if(~PINB & (1 << pin)) { // detekcja wciśnięcia przycisku na wyprowadzeniu PB{pin}
+  // obsługa zdarzenia 
+}
+```
+
+Zawartość `if`'a można zaszyć w definicji
+
+```cpp
+#define PRESS ~PINB & (1 << pin)
+if(PRESS) {
   // obsługa zdarzenia 
 }
 ```

@@ -4,3 +4,4 @@ template-vsc/*.hex
 template-vsc/*.o
 template-ms/.vs
 template-ms/Debug
+template-ms/lib
