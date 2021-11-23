@@ -3,26 +3,21 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
-#include "lib/portx.h"
+#include "lib/gpio.h"
 
-#define LED_ON PORTD &= ~(1 << 0)
-#define LED_OFF PORTD |= (1 << 0)
-
-char x = 0;
+GPIO_t led = { .pin = 2, .mode = GPIO_MODE_Output };
 
 int main(void)
 {
-  // init();
-  PORT_Init();
 
-    PORTY_Sign(0, '1', true);
-    PORTY_Sign(1, '0', false);
-    PORTY_Sign(2, '1', true);
-    PORTY_Sign(3, '1', false);
+  GPIO_Init(&led);
 
   while (1)
   {
-    PORTX = x++;
-    _delay_ms(10);
+    // PORTX = x++;
+    GPIO_Set(&led);
+    _delay_ms(300);
+    GPIO_Rst(&led);
+    _delay_ms(300);
   }
 }
