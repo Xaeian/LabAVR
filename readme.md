@@ -302,6 +302,111 @@ if(PRESS) {
 }
 ```
 
+## Biblioteka `portx`
+
+Biblioteka zapewnia mam możliwość sterowania 8 dodatkowymi diodami `PORTX`, przyciskami `PINX`, a także 4 wyświetlaczami, do którego są przygotowane specjalne funkcje. Biblioteka w tle komunikuje się z rejestrami przesuwnymi za pomocą magistrali **SPI**.
+
+Wymagane połączenia
+
+- `PB5 (SCK)` ⟶ `SCK`
+- `PB4 (MISO)` ⟶ `SO`
+- `PB3 (MOSI)` ⟶ `SI`
+- `PB2` ⟶ `CS`
+
+```cpp
+#include <avr/io.h>
+#include <util/delay.h>
+
+int main(void)
+{
+  SHIFT_Init();
+
+  while(1)
+  {
+    // loop()
+  }
+}
+```
+
+```cpp
+PORTX = PINX;
+```
+
+```cpp
+_delay_ms(69);
+PORTX++; 
+```
+
+Dostęp do poszczególnych wyświetlaczy zapewniany jest przez zmienne tablicę `PORTY[4]`. Jednak pisanie bezpośrednio do wartości tablicy jest mało praktyczne, więc warto zaimplementować funkcję `SEG7_Sign`, która wyświetli dany znak na wskazanym wyświetlaczu.
+
+```cpp
+void PORTY_Sign(uint8_t position, uint8_t sign, bool dot)
+{
+	switch(sign) {
+		case 0: case '0': PORTY[position] = 0x3F; break;
+		case 1: case '1': PORTY[position] = 0x06; break;
+		case 2: case '2': PORTY[position] = 0x5B; break;
+		case 3: case '3': PORTY[position] = 0x4F; break;
+		case 4: case '4': PORTY[position] = 0x66; break;
+		case 5: case '5': PORTY[position] = 0x6D; break;
+		case 6: case '6': PORTY[position] = 0x7D; break;
+		case 7: case '7': PORTY[position] = 0x07; break;
+		case 8: case '8': PORTY[position] = 0x7F; break;
+		case 9: case '9': PORTY[position] = 0x6F; break;
+		case 10: case 'A': case 'a': PORTY[position] = 0x77; break;
+		case 11: case 'B': case 'b': PORTY[position] = 0x7C; break;
+		case 12: case 'C': case 'c': PORTY[position] = 0x39; break;
+		case 13: case 'D': case 'd': PORTY[position] = 0x5E; break;
+		case 14: case 'E': case 'e': PORTY[position] = 0x79; break;
+		case 15: case 'F': case 'f': PORTY[position] = 0x71; break;
+		case '-': PORTY[position] = 0x40; break;
+		case '_': PORTY[position] = 0x08; break;
+		case 'r': PORTY[position] = 0x50; break;
+		case 'o': PORTY[position] = 0x5C; break;
+		default: PORTY[position] = 0x00; break;
+	}
+	PORTY[position] |= (dot << 7);
+}
+```
+
+W sytułacjach gdy chcemy 
+
+```cpp
+int main(void)
+{
+  uint8_t sign = 0;
+  SHIFT_Init();
+
+  while(1)
+  {
+    _delay_ms(69);
+    for(uint8_t i = 0; i < 4; i++) SEG7_Sign(i, sign, false);
+    if(sign++ > 15) sign = 0;
+  }
+}
+```
+
+Można dodatkowo doimplementować wyświetlenie łańcucha znaków (o ile będzie się on składał z znaków obsługiwanych w funkcji `SEG7_Sign`).
+
+
+//SEG7_Str()
+
+
+```cpp
+int main(void)
+{
+  int16_t value = -999;
+  SHIFT_Init();
+
+  while(1)
+  {
+    _delay_ms(69);
+    SEG7_Int(value);
+    if(value++ > 9999) value = -999;
+  }
+}
+```
+
 ## Komunikacja UART
 
 Wymagane połączenia
@@ -327,35 +432,6 @@ ISR(USART_RX_vect)
   if(((data > 65) && (data < 88)) || ((data > 96) && (data < 120))) { data += 3; }
   else if(((data > 87) && (data < 91)) || ((data > 119) && (data < 123))) { data -= 23; }
   UART_Send(data);
-}
-```
-
-## Biblioteka `portx`
-
-Biblioteka zapewnia mam możliwość sterowania 8 dodatkowymi diodami `PINX`, przyciskami `PORTX`, a także 4 wyświetlaczami, do którego są przygotowane specjalne funkcje. Biblioteka w tle komunikuje się z rejestrami przesuwnymi za pomocą magistrali **SPI**.
-
-Wymagane połączenia
-
-- `PB5 (SCK)` ⟶ `SCK`
-- `PB4 (MISO)` ⟶ `SO`
-- `PB3 (MOSI)` ⟶ `SI`
-- `PB2` ⟶ `CS`
-
-```cpp
-#include <avr/io.h>
-#include <util/delay.h>
-
-int main(void)
-{
-  uint8_t value = 0;
-  PORT_Init();
-
-  while(1)
-  {
-    _delay_ms(69);
-    PORTY_Int(value);
-    value++;
-  }
 }
 ```
 
