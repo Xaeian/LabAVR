@@ -12,6 +12,8 @@ DUDEFLAGS = -c usbasp -p m328p -U flash:w:$(MAIN_DIR)$(MAIN_APP).hex:i
 SRC = $(MAIN_APP).c
 SRC += lib/port.c
 SRC += lib/gpio.c
+SRC += lib/adc.c
+SRC += lib/uart.c
 SRC +=
 
 INCLUDE = -I.
