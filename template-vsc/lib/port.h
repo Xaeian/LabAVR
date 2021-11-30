@@ -1,6 +1,7 @@
 #ifndef PORTX_H_
 #define PORTX_H_
 #include <stdbool.h>
+#include <stdint.h>
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -14,8 +15,8 @@
 void PORT_Init();
 void PORT_Stop();
 void PORT_Start();
-void PORTY_Sign(uint8_t position, uint8_t sign, bool dot);
-void PORTY_Int(int16_t value);
+void SEG7_Sign(uint8_t position, uint8_t sign, bool dot);
+void SEG7_Int(int16_t value);
 
 //---------------------------------------------------------------------------------------------------------------------
 
