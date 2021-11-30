@@ -309,8 +309,8 @@ Biblioteka zapewnia mam możliwość sterowania 8 dodatkowymi diodami `PORTX`, p
 Wymagane połączenia
 
 - `PB5 (SCK)` ⟶ `SCK`
-- `PB4 (MISO)` ⟶ `SO`
-- `PB3 (MOSI)` ⟶ `SI`
+- `PB4 (MOSI)` ⟶ `SI`
+- `PB3 (MISO)` ⟶ `SO`
 - `PB2` ⟶ `CS`
 
 ```cpp

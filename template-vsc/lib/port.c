@@ -1,12 +1,14 @@
-#define __AVR_ATmega328P__
-#define F_CPU 16000000
+#ifndef __AVR_ATmega328P__
+  #define __AVR_ATmega328P__
+  #define F_CPU 16000000
+#endif
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <stdbool.h>
-
 #include "port.h"
+
 volatile uint8_t PORTX, PINX, PORTY[4];
 
 //-------------------------------------------------------------------------------------------------
@@ -56,9 +58,9 @@ void SEG7_Sign(uint8_t position, uint8_t sign, bool dot)
   if(dot) PORTY[position] |= (1<< 7);
 }
 
-const uint16_t SEG7_DIV[] = {1000, 100, 10, 1};
 
-void SEG7_Error(int16_t value)
+
+void SEG7_Error(void)
 {
   SEG7_Sign(0, 'E', false);
   SEG7_Sign(1, 'r', false);
@@ -66,9 +68,31 @@ void SEG7_Error(int16_t value)
   SEG7_Sign(3, 'o', false);
 }
 
+const uint16_t SEG7_DIV[] = {1000, 100, 10, 1};
+
 void SEG7_Int(int16_t value)
 {
+  if(value < -999 || value > 9999) {
+    SEG7_Error();
+    return;
+  }
 
+	uint8_t start = 0;
+	if(value < 0) {
+    value = -value;
+    start = 1;
+    SEG7_Sign(0, '-', false);
+  }
+  char space = ' ';
+	uint8_t sign, i;
+
+  for(i = start; i < 4; i++) {
+    sign = value / SEG7_DIV[i];
+    if(sign || i == 3) space = 0;
+    else sign = space;
+    SEG7_Sign(i, sign, false);
+    value %= SEG7_DIV[i];
+  }
 }
 
 //-------------------------------------------------------------------------------------------------

@@ -1,3 +1,8 @@
+#ifndef __AVR_ATmega328P__
+  #define __AVR_ATmega328P__
+  #define F_CPU 16000000
+#endif
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <stdlib.h>
@@ -18,13 +23,12 @@ void UART_Init(uint32_t frequency_bps, uint8_t bits, uint8_t parity, uint8_t sto
 	if ( bits == 9 ) UCSR0B |= (1 << UCSZ02);
 	
 	if (parity == 0);
-	else if (parity == 1) parity |= (1<<UPM01)|(1<<UPM00);
+	else if (parity == 1) parity |= (1 << UPM01) | (1 << UPM00);
 	else parity |= (1 << UPM01);
 
 	if (stop == 2) UCSR0C |= (1 << USBS0);
-	
-	UCSR0B |= (1<<RXEN0)|(1<<TXEN0)|(1<<RXCIE0);
-  // Enable transmitter, receiver and receive interrupt 
+
+	UCSR0B |= (1 << RXEN0) | (1 << TXEN0) |( 1 << RXCIE0);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -64,9 +68,9 @@ void UART_Hex(int value)
 
 void UART_Bin(uint8_t value)
 {
-	uint8_t bit;
+	uint8_t bit; int8_t i;
 	UART_Send('0'); UART_Send('b');
-	for(int8_t i = 7; i >= 0; i--) {
+	for(i = 7; i >= 0; i--) {
 		bit = (value >> i) & 1;
     UART_Send(bit + 48);
 	}

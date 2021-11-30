@@ -1,8 +1,10 @@
-#define __AVR_ATmega328P__
-#define F_CPU 16000000
+#ifndef __AVR_ATmega328P__
+  #define __AVR_ATmega328P__
+  #define F_CPU 16000000
+#endif
 
 #include <avr/io.h>
-#include "lib/gpio.h"
+#include "gpio.h"
 
 void GPIO_Set(GPIO_t *gpio)
 {
@@ -27,7 +29,7 @@ bool GPIO_In(GPIO_t *gpio)
 {
   uint8_t in = GPIO_PIN(gpio->_gpio);
   if(gpio->invert) in = ~in;
-  return in & (1 << gpio->_pin);
+  return (bool)(in & (1 << gpio->_pin));
 }
 
 void GPIO_Init(GPIO_t *gpio)

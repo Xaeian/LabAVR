@@ -17,7 +17,7 @@ typedef enum {
 void ADC_Init();
 void ADC_Mux(char channel);
 uint16_t ADC_Run(char channel);
-float ADC_RunFilter(char channel, char filter);
+uint32_t ADC_RunOversample(char channel, char count);
 
 //---------------------------------------------------------------------------------------------------------------------
 #endif
