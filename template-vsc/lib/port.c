@@ -68,26 +68,7 @@ void SEG7_Error(int16_t value)
 
 void SEG7_Int(int16_t value)
 {
-  if(value < -999 || value > 9999) {
-    return;
-  }
 
-	bool negative = false;
-	if(value < 0) {
-    value = -value;
-    negative = true;
-  }
-  char space = ' ';
-	uint8_t sign;
-
-  for(int i = 0; i < 4; i++) {
-    sign = value / SEG7_DIV[i];
-    if(value || i == 3) space = 0;
-    else sign = space;
-    SEG7_Sign(i, sign, false);
-    value %= SEG7_DIV[i];
-  }
-  if(negative) SEG7_Sign(0, '-', false);
 }
 
 //-------------------------------------------------------------------------------------------------
