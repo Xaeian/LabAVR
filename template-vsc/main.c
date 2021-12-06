@@ -1,6 +1,4 @@
-#define __AVR_ATmega328P__
-#define F_CPU 16000000
-
+#include "main.h"
 #include <avr/io.h>
 #include <util/delay.h>
 #include "lib/gpio.h"
