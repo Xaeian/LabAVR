@@ -20,13 +20,13 @@ void ADC_Init()
 
 //---------------------------------------------------------------------------------------------------------------------
 
-void ADC_Mux(char channel)
+void ADC_Mux(uint8_t channel)
 {
   ADMUX &= 0xE0;
   ADMUX |= channel;
 }
 
-uint16_t ADC_Run(char channel)
+uint16_t ADC_Run(uint8_t channel)
 {
   ADC_Mux(channel);
   ADCSRA |= (1 << ADSC);
@@ -34,7 +34,7 @@ uint16_t ADC_Run(char channel)
   return ADC;
 }
 
-uint32_t ADC_RunOversample(char channel, char count)
+uint32_t ADC_RunOversample(uint8_t channel, uint16_t count)
 {
   uint32_t value = 0;
   int i;
