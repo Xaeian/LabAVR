@@ -6,16 +6,16 @@
 
 void PWM_Init(uint32_t autoreload)
 {
-	ICR1 = autoreload;
-	DDRB |= (PWM_ENABLE_B << 2) |(PWM_ENABLE_A << 1);
-	TCCR1A = (PWM_ENABLE_A << 7)|
+  ICR1 = autoreload;
+  DDRB |= (PWM_ENABLE_B << 2) |(PWM_ENABLE_A << 1);
+  TCCR1A = (PWM_ENABLE_A << 7)|
            ((PWM_ENABLE_A & PWM_NEGATION_A) << 6)|
            (PWM_ENABLE_B << 5)|
            ((PWM_ENABLE_B & PWM_NEGATION_B) << 4);
-	OCR1A = 0;
+  OCR1A = 0;
   OCR1B = 0;
-	if(PWM_NEGATION_A) { OCR1A = autoreload; }
-	if(PWM_NEGATION_B) { OCR1B = autoreload; }
+  if(PWM_NEGATION_A) { OCR1A = autoreload; }
+  if(PWM_NEGATION_B) { OCR1B = autoreload; }
 
   switch(PWM_MODE) {
     case PWM_Mode_PhaseAndFrequencyCorrect: TCCR1B = (1 << WGM13); break;
