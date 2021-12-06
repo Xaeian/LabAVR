@@ -7,7 +7,7 @@
 #define PWM_PRESCALER 8 // { 1, 8, 64, 256, 1024 }
 
 #define PWM_ENABLE_A 1
-#define PWM_ENABLE_B 1
+#define PWM_ENABLE_B 0
 #define PWM_NEGATION_A 0
 #define PWM_NEGATION_B 0
 

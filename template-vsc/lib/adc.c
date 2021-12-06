@@ -1,8 +1,4 @@
-#ifndef __AVR_ATmega328P__
-  #define __AVR_ATmega328P__
-  #define F_CPU 16000000
-#endif
-
+#include "main.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "adc.h"
