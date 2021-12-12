@@ -34,7 +34,7 @@
 #define LCD_D7_PIN 7
 
 #define LCD_E_PORT A
-#define LCD_E_PIN	0
+#define LCD_E_PIN  0
 #define LCD_RS_PORT A
 #define LCD_RS_PIN 1
 #define LCD_RW_PORT A
@@ -42,14 +42,14 @@
 
 //---------------------------------------------------------------------------------------------------------------------
 
-#define LCD_E_SET	PORT(LCD_E_PORT) |= (1 << (LCD_E_PIN))
-#define LCD_E_CLR	PORT(LCD_E_PORT) &= ~(1 << (LCD_E_PIN))
+#define LCD_E_SET  PORT(LCD_E_PORT) |= (1 << (LCD_E_PIN))
+#define LCD_E_CLR  PORT(LCD_E_PORT) &= ~(1 << (LCD_E_PIN))
 
 //--------------------------------------------------------------------------------------------------------------------- <--- Pre-compilation
 
 #define LCD_IDLE_CONFIRM 1
 #define LCD_INTERFACE_BITS 8 // { 4, 8 }
-#define LCD_CUSTOME_CHARS	1
+#define LCD_CUSTOME_CHARS  1
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -87,7 +87,7 @@ void LCD_Hex(uint32_t value);
 /*
 char tab[] = {...};
 const char tab[] PROGMEM = {...};
-	
+  
 LCD_Tekst("...");
 LCD_Tekst_P(PSTR("..."));
 */

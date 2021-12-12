@@ -1,24 +1,35 @@
 #include "main.h"
 #include <avr/io.h>
 #include <util/delay.h>
-#include "lib/gpio.h"
+#include "lib/adc.h"
 #include "lib/port.h"
+#include "lib/pwm.h"
+#include "lib/uart.h"
 
-GPIO_t led = { .pin = 2, .mode = GPIO_MODE_Output };
+//GPIO_t led = { .pin = 2, .mode = GPIO_MODE_Output };
+
+
+typedef enum {
+  A0 = 0, A1 = 1, A2 = 2, A3 = 3, A4 = 4, A5 = 5
+} ADC_Channel_e;
 
 int main(void)
 {
-
-  //GPIO_Init(&led);
+  PWM_Init(1000);
+  ADC_Init();
   PORT_Init();
-  SEG7_Int(123);
+  UART_Init(9600, 8, 0, 1);
+  //SEG7_Int(123);
+  //SEG7_Sign(1, 'A', true);
+  uint16_t value;
   
   while (1)
   {
-    // PORTX = x++;
-    //GPIO_Set(&led);
-    //_delay_ms(300);
-    //GPIO_Rst(&led);
-    //_delay_ms(300);
+    value = ADC_Run(A3) * 1000 / 1023;
+
+    PWM_SetA(value);
+    UART_Dec(value);
+    UART_Send('\r'); UART_Send('\n');
+    SEG7_Int(SEG7_Int);
   }
 }

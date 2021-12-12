@@ -22,8 +22,7 @@ void ADC_Init()
 
 void ADC_Mux(uint8_t channel)
 {
-  ADMUX &= 0xE0;
-  ADMUX |= channel;
+  ADMUX = (ADMUX & 0xE0) | channel;
 }
 
 uint16_t ADC_Run(uint8_t channel)

@@ -11,15 +11,15 @@ volatile uint8_t PORTX, PINX, PORTY[4];
 
 void PORT_Init()
 {
-	PORTX = 0; PORTY[0] = 0; PORTY[1] = 0; PORTY[2] = 0; PORTY[3] = 0;
-	
-	PORTB |= (1 << SPI_CS);
-	DDRB |= (1 << SPI_SCK) | (1 << SPI_MOSI) | (1 << SPI_CS);
-	DDRB &= ~(1 << SPI_MISO);
-	SPCR = (1 << SPIE) | (1 << SPE) | (1 << MSTR) | (1 << SPR1) | (1 << SPR0); // Prescaler: 128
-	
-	PORTB &= ~(1 << SPI_CS);
-	SPDR = PORTX;
+  PORTX = 0; PORTY[0] = 0; PORTY[1] = 0; PORTY[2] = 0; PORTY[3] = 0;
+  
+  PORTB |= (1 << SPI_CS);
+  DDRB |= (1 << SPI_SCK) | (1 << SPI_MOSI) | (1 << SPI_CS);
+  DDRB &= ~(1 << SPI_MISO);
+  SPCR = (1 << SPIE) | (1 << SPE) | (1 << MSTR) | (1 << SPR1) | (1 << SPR0); // Prescaler: 128
+  
+  PORTB &= ~(1 << SPI_CS);
+  SPDR = PORTX;
   sei();
 }
 
@@ -54,8 +54,6 @@ void SEG7_Sign(uint8_t position, uint8_t sign, bool dot)
   if(dot) PORTY[position] |= (1<< 7);
 }
 
-
-
 void SEG7_Error(void)
 {
   SEG7_Sign(0, 'E', false);
@@ -73,14 +71,14 @@ void SEG7_Int(int16_t value)
     return;
   }
 
-	uint8_t start = 0;
-	if(value < 0) {
+  uint8_t start = 0;
+  if(value < 0) {
     value = -value;
     start = 1;
     SEG7_Sign(0, '-', false);
   }
   char space = ' ';
-	uint8_t sign, i;
+  uint8_t sign, i;
 
   for(i = start; i < 4; i++) {
     sign = value / SEG7_DIV[i];
@@ -97,15 +95,15 @@ uint8_t portx_state;
 
 ISR(SPI_STC_vect)
 {
-	switch(portx_state)
-	{
-		case 0: PINX = SPDR;
-		case 1: case 2: case 3: SPDR = PORTY[portx_state]; break;
-		case 4: PORTB |= (1 << SPI_CS); _delay_us(1); PORTB &= ~(1 << SPI_CS); SPDR = PORTX;
-	}
-	
-	portx_state++;
-	if(portx_state > 4) { portx_state = 0; }
+  switch(portx_state)
+  {
+    case 0: PINX = SPDR;
+    case 1: case 2: case 3: SPDR = PORTY[portx_state]; break;
+    case 4: PORTB |= (1 << SPI_CS); _delay_us(1); PORTB &= ~(1 << SPI_CS); SPDR = PORTX;
+  }
+  
+  portx_state++;
+  if(portx_state > 4) { portx_state = 0; }
 }
 
 //-------------------------------------------------------------------------------------------------
