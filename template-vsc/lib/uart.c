@@ -24,7 +24,7 @@ void UART_Init(uint32_t frequency_bps, uint8_t bits, uint8_t parity, uint8_t sto
 
   if (stop == 2) UCSR0C |= (1 << USBS0);
 
-  UCSR0B |= (1 << RXEN0) | (1 << TXEN0) |( 1 << RXCIE0);
+  UCSR0B |= (1 << RXEN0) | (1 << TXEN0) | ( 1 << RXCIE0);
 }
 
 //---------------------------------------------------------------------------------------------------------------------
