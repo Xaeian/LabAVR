@@ -221,7 +221,7 @@ int main(void)
   while (1)
   {
     PORTD = ~value;
-    _delay_ms(30);
+    _delay_ms(69);
     value <<= 1;
     if(!value) {
        value = 1;
@@ -247,7 +247,7 @@ int main(void)
   while (1)
   {
     PORTD = ~value;
-    _delay_ms(30);
+    _delay_ms(69);
     if(state) {
       value <<= 1;
       if(value == 128) {
@@ -319,7 +319,7 @@ Wymagane połączenia
 
 int main(void)
 {
-  SHIFT_Init();
+  PORT_Init();
 
   while(1)
   {
@@ -380,7 +380,7 @@ int main(void)
 
   while(1)
   {
-    _delay_ms(69);
+    _delay_ms(200);
     for(i = 0; i < 4; i++) SEG7_Sign(i, sign, false);
     if(sign++ > 15) sign = 0;
   }
@@ -397,7 +397,7 @@ int main(void)
 
   while(1)
   {
-    _delay_ms(69);
+    _delay_ms(10);
     SEG7_Int(value);
     if(value++ > 9999) value = -999;
   }
