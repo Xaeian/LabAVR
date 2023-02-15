@@ -51,7 +51,7 @@ void SEG7_Sign(uint8_t position, uint8_t sign, bool dot)
     case 'O': case 'o': PORTY[position] = 0x5C; break;
     default: PORTY[position] = 0x00; break;
   }
-  if(dot) PORTY[position] |= (1<< 7);
+  if(dot) PORTY[position] |= (1 << 7);
 }
 
 void SEG7_Error(void)

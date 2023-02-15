@@ -374,13 +374,14 @@ W sytułacjach gdy chcemy
 ```cpp
 int main(void)
 {
+  uint8_t i;
   uint8_t sign = 0;
-  SHIFT_Init();
+  PORT_Init();
 
   while(1)
   {
     _delay_ms(69);
-    for(uint8_t i = 0; i < 4; i++) SEG7_Sign(i, sign, false);
+    for(i = 0; i < 4; i++) SEG7_Sign(i, sign, false);
     if(sign++ > 15) sign = 0;
   }
 }
@@ -388,15 +389,11 @@ int main(void)
 
 Można dodatkowo doimplementować wyświetlenie łańcucha znaków (o ile będzie się on składał z znaków obsługiwanych w funkcji `SEG7_Sign`).
 
-
-//SEG7_Str()
-
-
 ```cpp
 int main(void)
 {
   int16_t value = -999;
-  SHIFT_Init();
+  PORT_Init();
 
   while(1)
   {
@@ -439,7 +436,7 @@ ISR(USART_RX_vect)
 
 Wymagane połączenia
 
-- `PC0 (SCK)` ⟶ `POT` | `JOY` | `MIC` | `FT` | `...`
+- `PC0 (ADC0)` ⟶ `POT` | `JOY` | `MIC` | `FT` | `...`
 
 ```cpp
 #include <avr/io.h>

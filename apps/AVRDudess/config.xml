@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ConfigData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <configVersion>1</configVersion>
-  <updateCheck>1623153968</updateCheck>
+  <updateCheck>1641635442</updateCheck>
   <skipVersion>
     <Major>0</Major>
     <Minor>0</Minor>
@@ -11,18 +11,18 @@
   <avrdudeConfLoc />
   <avrSizeLoc />
   <windowLocation>
-    <X>375</X>
-    <Y>168</Y>
+    <X>104</X>
+    <Y>104</Y>
   </windowLocation>
   <language>english</language>
   <hiddenMCUs />
   <hiddenProgrammers />
   <previousSettings>
     <programmer>usbasp</programmer>
-    <mcu>m328p</mcu>
+    <mcu>m32</mcu>
     <port />
     <baud />
-    <bitclock>0.5</bitclock>
+    <bitclock>20.96</bitclock>
     <flashFile />
     <flashFormat>a</flashFormat>
     <flashOp>w</flashOp>
