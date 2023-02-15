@@ -278,7 +278,7 @@ int main(void)
   DDRD |= 0x0F; // wyprowadzenia PD[0..3] jako wyjścia
   DDRB &= ~0x0F; // wyprowadzenia PB[0..3] jako wejścia
   PORTB |= 0xFF; // pull-up (rezystor podciągający) dla wejść
-  while (1)
+  while(1)
   {
     PORTD = PINB; // przepisanie stanów przycisku na diody
   }
@@ -293,6 +293,31 @@ if(~PINB & (1 << pin)) { // detekcja wciśnięcia przycisku na wyprowadzeniu PB{
 }
 ```
 
+W przykładzie podczas wciśnięcia przycisku powoduje świecenie diody.
+
+Wymagane połączenia
+
+- `PD3` ⟶ `LED`
+- `PB2` ⟶ `SW`
+
+```cpp
+int main(void)
+{
+  DDRD |= (1 << 3);
+  DDRB &= ~(1 << 2);
+  PORTB |= (1 << 2);
+  while(1)
+  {
+    if(~PINB & (1 << 2)) { // jeżeli przycisk SW jest wciśnięty
+      PORTD |= (1 << 3); // zapal diodę LED
+    }
+    else { // w przeciwnym razie
+      PORTD &= ~(1 << 3); // zgaś diodę LED
+    }
+  }
+}
+```
+
 Zawartość `if`'a można zaszyć w definicji
 
 ```cpp
@@ -301,6 +326,8 @@ if(PRESS) {
   // obsługa zdarzenia 
 }
 ```
+
+
 
 ## Biblioteka `portx`
 
