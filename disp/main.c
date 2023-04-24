@@ -16,14 +16,31 @@
 #define pattern bin" "hex" \e[31m%d\e[39m"
 #define disp(byte) byte2bin(byte), byte, byte 
 
+uint32_t display_n;
+
+void display(uint32_t nbr32)
+{
+  uint8_t nbr8 = (uint8_t)nbr32;
+  printf("x%d: "pattern"\n", display_n, disp(nbr8));
+  display_n++;
+}
+
+
 int main(int argc, char **argv[])
 {
   uint8_t DDRD = 0x23;
-  printf("DDRD: "pattern"\n", disp(DDRD));
+  uint8_t PORTD = 0x00;
 
+  // printf("DDRD: "pattern"\n", disp(DDRD));
+  DDRD |= (1 << 7) | (1 << 3);
+  // printf("DDRD: "pattern"\n", disp(DDRD));
+  PORTD = (1 << 7);
+  //printf("PORTD: "pattern"\n", disp(PORTD));
+  PORTD |= (1 << 3);
+  printf("PORTD:     "pattern"\n", disp(PORTD));
 
-
-
-
-  
+  printf("(1 << 7):  "pattern"\n", disp((1 << 7)));
+  printf("~(1 << 7): "pattern"\n", disp(~(1 << 7)));
+  PORTD &= ~(1 << 7);
+  printf("PORTD    : "pattern"\n", disp(PORTD));
 }
