@@ -1,8 +1,3 @@
----
-Emilian Świtalski | es@sqrt.pl
-TODO: switch, lcd, ir
----
-
 Kurs programowania procesorów **AVR** na przykładzie mikrokontrolera **Atmega328P**.
 
 ## Dlaczego AVR?
@@ -34,33 +29,9 @@ W paczce znajdziemy m. in.
   - `portx` - dodatkowe porty IO w tym wyświetlacze 7-segmentowe
   - `lcd` - Wyświetlacz ze sterownikiem HD44780
 
-## Microchip Studio for AVR
-
-Skonfigurowany projekt dla Microchip Studio znajduje się w folderze **template-ms**, jednak konieczna jest ustawienie prędkości pracy mikrokontrolera, gdyż jest ona ściśle związana z konfiguracją sprzętową _(fuse-bity / rezonator kwarcowy)_.
-
-![fcpu](./images/fcpu.png)
-
-Aby pracować z programatorem **USB/ASP** trzeba dodać urządzenie zewnętrzne, ponieważ ten programator nie jest oficjalnie wspierany.
-
-![add-external-tool](./images/usbasp1.png)
-
-W polu `Command` należy wybrać ścieżkę do `avrdude.exe`
-
-W polu `Arguments` należy wpisać
-
-```
--c usbasp -p m328p -U flash:w:$(TargetDir)$(TargetName).hex:i
-```
-
-![toolbar](./images/usbasp2.png)
-
-Na pasku narzędzi powinno pojawić się `USBasp Atmega328P`
-
-Jak po z**build**owaniu program się nie wgrywa, trzeba przeinstalować sterowniki programatora
-
-![zadig](./images/usbasp3.png)
-
 ## Visual Studio Code
+
+`TODO`
 
 Z [Visual Studio Code](https://code.visualstudio.com/Download) sprawa wygląda prościej, gdyż konfiguracja programatora jest zawarta w projekcie **template-vcs**, a nie w IDE. Trzeba jedynie ustawić prędkość pracy jako definicję.
 
@@ -72,6 +43,10 @@ I można skompilować i wgrać program za pomocą komendy
 
     make
 
+Jak po z**build**owaniu program się nie wgrywa, trzeba przeinstalować sterowniki programatora
+
+![zadig](./images/usbasp3.png)
+
 # Speedrun AVR
 
 Prezentacja obrazująca [operacje binarne](http://sqrt.pl/avr.pdf) często wykorzystywane w programowaniu systemów wbudowanych.
@@ -79,6 +54,60 @@ Prezentacja obrazująca [operacje binarne](http://sqrt.pl/avr.pdf) często wykor
 Wykorzystując płytkę stykową i scalak w obudowie DIP28 przydatna jest ściągawka z wyprowadzeniami mikrokontrolera.
 
 ![atmega328p](./images/atmega328p.png)
+
+## Helper
+
+```c
+#define bin "%c%c%c%c%c%c%c%c"
+#define byte2bin(byte) \
+  (byte & 0x80 ? '1' : '0'), \
+  (byte & 0x40 ? '1' : '0'), \
+  (byte & 0x20 ? '1' : '0'), \
+  (byte & 0x10 ? '1' : '0'), \
+  (byte & 0x08 ? '1' : '0'), \
+  (byte & 0x04 ? '1' : '0'), \
+  (byte & 0x02 ? '1' : '0'), \
+  (byte & 0x01 ? '1' : '0')
+
+uint8_t DDRD;
+```
+
+```c
+int main(void)
+{
+  uint8_t value = 1;
+  while (1)
+  {
+    printf(bin"\n", byte2bin(value));
+    getchar();
+    value <<= 1;
+    if(!value) {
+      printf(bin" is zero!\n", byte2bin(value));
+      value = 1;
+    }
+  }
+}
+```
+
+```c
+uint8_t DDRD;
+
+int main(void)
+{
+  DDRD = 0b11110000;
+  printf("DDRD   : "bin"\n", byte2bin(DDRD));
+  printf("~(1<<6): "bin"\n", byte2bin(~(1 << 6)));
+  DDRD = DDRD & ~(1 << 6); // DDRD &= ~(1 << 6);
+  printf("NAND   : "bin"\n", byte2bin(DDRD));
+
+  DDRD = 0b11110000;
+  printf("DDRD   : "bin"\n", byte2bin(DDRD));
+  printf("(1<<2) : "bin"\n", byte2bin((1 << 2)));
+  DDRD = DDRD | (1 << 2);
+  printf("OR     : "bin"\n", byte2bin(DDRD));
+  return 0;
+}
+```
 
 ## Migające diody LED
 
