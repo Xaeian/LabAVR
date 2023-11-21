@@ -3,7 +3,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <stdbool.h>
-#include "port.h"
+#include "myspi.h"
 
 volatile uint8_t PORTX, PINX, PORTY[4];
 
