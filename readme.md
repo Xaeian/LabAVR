@@ -13,7 +13,6 @@ Mikrokontrolery wydane przez firmę Atmel nie są już aż tak popularne jak kie
 W paczce znajdziemy m. in.
 
 - `apps` - Niezbędne oprogramowanie:
-  - [Microchip AVR Studio](https://www.microchip.com/en-us/development-tools-tools-and-software/) - IDE
   - [WinAVR](http://winavr.sourceforge.net/download.html) - Paczka zawierająca aplikację do wgrywania firmware przez programator USB/ASP. Koniecznie trzeba zainstalować
   - [Zadig](https://zadig.akeo.ie/) - Program to aktualizacji programatorów USB/ASP
   - [Realterm](https://realterm.i2cchip.com/) - Terminal do komunikacji z PC

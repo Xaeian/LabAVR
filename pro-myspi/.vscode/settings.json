@@ -6,7 +6,6 @@
     "gpio.h": "c",
     "stdlib.h": "c",
     "lcd.h": "c",
-    "main.h": "c",
-    "delay.h": "c"
+    "main.h": "c"
   }
 }
