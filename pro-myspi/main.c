@@ -6,11 +6,8 @@
 int main(void)
 {
   MYSPI_Init();
-
   PORTX = 12;
-  PORTY[0] = 1;
-  PORTY[1] = 2;
-  PORTY[2] = 3;
-  PORTY[3] = 4;
+  PORTY[2] = 0x06;
+  SEG7_Sign(2, 1, false);
   while (1);
 }

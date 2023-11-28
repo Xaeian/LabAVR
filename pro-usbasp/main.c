@@ -3,6 +3,9 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include "lib/uart.h"
+#include "lib/port.h"
+#include "lib/adc.h"
 
 int main(void)
 {

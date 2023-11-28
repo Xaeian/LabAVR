@@ -28,7 +28,16 @@ __inline void MYSPI_Start() { SPCR |= (1<<SPIE); }
   
 void SEG7_Sign(uint8_t position, uint8_t sign, bool dot)
 {
+  switch(sign) {
+    case 1: PORTY[position] = 0x06; break;
+    case 2: PORTY[position] = ...; break;
 
+  }
+
+  // if(sign == 1) {
+  //   PORTY[position] = 0x06;
+  // }
+  // else if
 }
 
 void SEG7_Error(void)

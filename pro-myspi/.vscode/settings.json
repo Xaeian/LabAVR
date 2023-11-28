@@ -9,6 +9,7 @@
     "lcd.h": "c",
     "main.h": "c",
     "stdbool.h": "c",
-    "myspi.h": "c"
+    "myspi.h": "c",
+    "stdint.h": "c"
   }
 }
